@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
+import 'LoginPage.dart';
+
+
+void main() async{
+
+  // initialize hive
+  await Hive.initFlutter();
+
+  // open a box
+  await Hive.openBox('myBox');
+
   runApp(const MainApp());
 }
 
@@ -9,10 +20,30 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
+    var screenWidth = MediaQuery.of(context).size.width;
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: LoginPage(),
+      theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.indigo.shade900,
+          foregroundColor: Colors.white,
+          centerTitle: true,
+          elevation: 0,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.indigo.shade900),
+            foregroundColor: MaterialStateProperty.all(Colors.white),
+            shape: MaterialStateProperty.all(
+              BeveledRectangleBorder(
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+            ),
+            fixedSize: MaterialStateProperty.all(
+              Size(screenWidth, 50),
+            ),
+          ),
         ),
       ),
     );
