@@ -31,6 +31,11 @@ class MainApp extends StatelessWidget {
           centerTitle: true,
           elevation: 0,
         ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          selectedItemColor: Colors.orange.shade600,
+          showUnselectedLabels: true,
+          unselectedItemColor: Colors.grey.shade800,
+        ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(Colors.indigo.shade900),
