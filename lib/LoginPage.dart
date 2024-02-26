@@ -41,6 +41,7 @@ class _LoginPageState extends State<LoginPage> {
         // so, I shifted this line to the HomePage, and called it before the logoutAction
         // the error was resolved
         setState(() {
+          phoneController.clear();
           appDB.usersList[index]['isLoggedIn'] = 'false';
           appDB.updateDatabase();
           print(appDB.usersList);
@@ -97,10 +98,14 @@ class _LoginPageState extends State<LoginPage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            content: Container(
+            content: SizedBox(
+              width: 200,
+              height: 200,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('Phone is invalid'),
+                  SizedBox(height: 20,),
                   ElevatedButton(
                     child: Text('OK'),
                     onPressed: () => Navigator.of(context).pop(),
