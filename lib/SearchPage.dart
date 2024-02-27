@@ -15,14 +15,19 @@ class SearchPage extends StatelessWidget {
           child: Column(
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   InkWell(
                     child: Icon(Icons.arrow_back),
                     onTap: () => Navigator.of(context).pop(),
                   ),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Expanded(child: Text('Search')),
                 ],
+              ),
+              SizedBox(
+                height: 20,
               ),
               TextField(
                 decoration: InputDecoration(
@@ -42,16 +47,45 @@ class SearchPage extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.location_searching_outlined),
                 title: Text('Property Near Me'),
-                onTap: () {
-                  
-                },
+                contentPadding: EdgeInsets.zero,
+                onTap: () {},
               ),
               ListTile(
-                leading: Icon(Icons.location_on, color: Colors.grey.shade300,),
-                title: Text('Riyadh, Riyadh, Saudi Arabia'),
-                onTap: () {
-                  
-                },
+                leading: Icon(
+                  Icons.location_on,
+                  color: Colors.grey.shade400,
+                ),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Riyadh, Riyadh, Saudi Arabia',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 2,
+                    ),
+                    Text(
+                      'City',
+                      style: TextStyle(
+                        color: Colors.grey.shade400,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
+                trailing: Text(
+                  '1139',
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Colors.orange.shade600,
+                  ),
+                ),
+                contentPadding: EdgeInsets.zero,
+                onTap: () {},
               ),
             ],
           ),
