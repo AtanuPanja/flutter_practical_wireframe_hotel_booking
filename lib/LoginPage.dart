@@ -34,58 +34,71 @@ class _LoginPageState extends State<LoginPage> {
 
   // perform logout action
   void logoutAction() {
-    for (var index = 0; index < appDB.usersList.length; index++) {
+    setState(() {
+      for (var index = 0; index < appDB.usersList.length; index++) {
         // logging out all users
         // Navigator.of(context).pop();
         // this navigator pop statement, showed an error
         // so, I shifted this line to the HomePage, and called it before the logoutAction
         // the error was resolved
-        setState(() {
-          phoneController.clear();
-          appDB.usersList[index]['isLoggedIn'] = 'false';
-          appDB.updateDatabase();
-          print(appDB.usersList);
-        });
-
+        phoneController.clear();
+        appDB.usersList[index]['isLoggedIn'] = 'false';
+        appDB.updateDatabase();
       }
+      print('Logging out all users');
+      print(appDB.usersList);
+    });
   }
-
 
   // perform login action
   void loginAction() {
+    // logging out all users without setting the state
+    // in the logout method, state was updated, so the function
+    // can't be reused here, however the logging out
+    // logic is reused
+    for (var index = 0; index < appDB.usersList.length; index++) {
+      appDB.usersList[index]['isLoggedIn'] = 'false';
+    }
+    print('Logging out users before logging in');
+    print(appDB.usersList);
+
     // search for already existing user with the same phone
-      for (var index = 0; index < appDB.usersList.length; index++) {
-        // making sure all other users are logged out
-        appDB.usersList[index]['isLoggedIn'] = 'false';
-
-        // searching for the user in the db
-        // if available, set isLoggedIn = true
-        if (appDB.usersList[index]['phone'] == phoneController.value.text) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => HomePage(logoutAction: logoutAction)),
-          );
-          setState(() {
-            appDB.usersList[index]['isLoggedIn'] = 'true';
-            appDB.updateDatabase();
-            print(appDB.usersList);
-          });
-
-          return;
-        }
-      }
-
-      // if after searching we find that, user is not in db
-      // this statement will be reached only when the for loop completes, without triggering
-      // the return statement
-      var newUser = {
-        'phone': phoneController.value.text,
-        'isLoggedIn': 'true',
-      };
-      setState(() {
-        appDB.usersList.add(newUser);
+    for (var index = 0; index < appDB.usersList.length; index++) {
+      // searching for the user in the db
+      // if available, set isLoggedIn = true
+      if (appDB.usersList[index]['phone'] == phoneController.value.text) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => HomePage(logoutAction: logoutAction)),
+        );
+        appDB.usersList[index]['isLoggedIn'] = 'true';
         appDB.updateDatabase();
-      });
+        print('Logging in existing user');
+        print(appDB.usersList);
+        setState(() {});
+        return;
+      }
+    }
+
+    // if after searching we find that, user is not in db
+    // this statement will be reached only when the for loop completes, without triggering
+    // the return statement
+    var newUser = {
+      'phone': phoneController.value.text,
+      'isLoggedIn': 'true',
+    };
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+          builder: (context) => HomePage(logoutAction: logoutAction)),
+    );
+    
+      appDB.usersList.add(newUser);
+      appDB.updateDatabase();
+    print('Logging in new user');
+    print(appDB.usersList);
+    setState(() {});
   }
 
   // this callback is called when the continue button is pressed
@@ -105,7 +118,9 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('Phone is invalid'),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   ElevatedButton(
                     child: Text('OK'),
                     onPressed: () => Navigator.of(context).pop(),
