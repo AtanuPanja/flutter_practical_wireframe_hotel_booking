@@ -8,6 +8,8 @@ class AppDatabase {
 
   void loadUsers() {
     usersList = myBox.get('usersList');
+    usersList.removeWhere((element) => element['phone'].isEmpty);
+    updateDatabase();
   }
 
   void updateDatabase() {
