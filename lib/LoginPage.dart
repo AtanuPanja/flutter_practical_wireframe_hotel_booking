@@ -19,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   AppDatabase appDB = AppDatabase();
 
   TextEditingController phoneController = TextEditingController();
-
+  
   @override
   void initState() {
     // TODO: implement initState
@@ -93,9 +93,9 @@ class _LoginPageState extends State<LoginPage> {
       MaterialPageRoute(
           builder: (context) => HomePage(logoutAction: logoutAction)),
     );
-    
-      appDB.usersList.add(newUser);
-      appDB.updateDatabase();
+
+    appDB.usersList.add(newUser);
+    appDB.updateDatabase();
     print('Logging in new user');
     print(appDB.usersList);
     setState(() {});
@@ -162,9 +162,16 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CircleAvatar(
-                    child: Icon(Icons.person),
+                    radius: 50,
+                    child: Icon(
+                      Icons.house,
+                      size: 50,
+                    ),
                   ),
-                  Text('Welcome to HoldInn'),
+                  Text('Welcome to HoldInn', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,),),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Container(
                     padding: EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
