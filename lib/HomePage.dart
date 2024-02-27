@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:practical4_hotel_booking/SearchPage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -13,9 +14,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   // list of topdeals on hotels
-  List<Map<String,String>> topDeals = [
+  List<Map<String, String>> topDeals = [
     {
       'image': 'assets/images/Hotel.jpeg',
       'title': 'Saif Boutique Hotel International',
@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
   ];
 
   // list of recent booked hotels
-  List<Map<String,String>> recentBooking = [
+  List<Map<String, String>> recentBooking = [
     {
       'image': 'assets/images/Hotel.jpeg',
       'title': 'Saif Boutique Hotel International',
@@ -62,11 +62,10 @@ class _HomePageState extends State<HomePage> {
   ];
 
   int _currentIndex = 0;
-  
+  FocusNode searchFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
-
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -83,6 +82,18 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: TextField(
+                    focusNode: searchFocus,
+                    onTapOutside: (event) => searchFocus.unfocus(),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: ((context) => SearchPage()),
+                          fullscreenDialog: true,
+                        ),
+                      );
+                    },
+                    onTapAlwaysCalled: true,
                     decoration: InputDecoration(
                       fillColor: Colors.grey.shade200,
                       filled: true,
@@ -147,7 +158,7 @@ class _HomePageState extends State<HomePage> {
           onTap: (value) {
             setState(() {
               _currentIndex = value;
-      
+
               if (value == 1) {
                 // if profile icon has been clicked upon
                 showDialog(
@@ -183,10 +194,12 @@ class _HomePageState extends State<HomePage> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: ElevatedButton(
                                     style: ButtonStyle(
-                                      backgroundColor: MaterialStateProperty.all(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
                                         Colors.indigo.shade100,
                                       ),
-                                      foregroundColor: MaterialStateProperty.all(
+                                      foregroundColor:
+                                          MaterialStateProperty.all(
                                         Colors.indigo.shade900,
                                       ),
                                     ),
@@ -248,16 +261,17 @@ class CustomRowForHotels extends StatelessWidget {
             child: Row(
               // dynamically populating the data
 
-              children: data.map<Widget>((elem) {
+              children: data.map<Widget>(
+                (elem) {
                   return CustomCardDisplay(
-                    tagType: tagType, 
+                    tagType: tagType,
                     tagContent: elem['tag'] ?? 'tag',
                     image: elem['image'] ?? 'assets/images/Hotel.jpeg',
                     title: elem['title'] ?? 'title',
                     subtitle: elem['subtitle'] ?? '',
                   );
-                },).toList(),
-              
+                },
+              ).toList(),
             ),
           ),
         ],
@@ -319,17 +333,16 @@ class CustomCardDisplay extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(8.0),
-                child: subtitle.isNotEmpty 
-                ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(title),
-                    Text(subtitle),
-                  ],
-                )
-                : Text(title)
-              ),
+                  padding: EdgeInsets.all(8.0),
+                  child: subtitle.isNotEmpty
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(title),
+                            Text(subtitle),
+                          ],
+                        )
+                      : Text(title)),
             ],
           ),
         ),
@@ -368,8 +381,8 @@ class CustomHotelTag extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: tagType == 1 ? Colors.white: Colors.green,
-        borderRadius: tagType == 1 
+        color: tagType == 1 ? Colors.white : Colors.green,
+        borderRadius: tagType == 1
             ? BorderRadius.circular(8.0)
             : BorderRadius.only(
                 topRight: Radius.circular(8.0),
