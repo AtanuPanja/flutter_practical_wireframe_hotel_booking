@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // provides the DateFormat utility
 
+import 'HotelsAvailable.dart';
+
 class SelectRooms extends StatefulWidget {
   const SelectRooms({
     super.key,
@@ -139,9 +141,11 @@ class _SelectRoomsState extends State<SelectRooms> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Scaffold(
-                                    appBar: AppBar(),
-                                  ),
+                                  builder: (context) => HotelsAvailable(
+                                      formattedDateString:
+                                          "${DateFormat("dd MMM").format(widget.startDate)}-${DateFormat("dd MMM").format(widget.endDate)}",
+                                      adultCount: adults,
+                                      roomCount: rooms),
                                 ),
                               );
                             },
