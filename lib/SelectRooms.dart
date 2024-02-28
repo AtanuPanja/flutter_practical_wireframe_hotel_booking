@@ -76,7 +76,7 @@ class _SelectRoomsState extends State<SelectRooms> {
           child: Column(
             children: [
               Text(
-                'When will you be there?',
+                'Add the number of guests',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
