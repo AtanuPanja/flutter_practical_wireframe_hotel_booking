@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart'; // provides the DateFormat utility
 import 'package:flutter_date_pickers/flutter_date_pickers.dart' as dp;
 import 'SelectRooms.dart';
 
@@ -52,7 +52,7 @@ class _SelectDateRangeState extends State<SelectDateRange> {
                       Column(
                         children: [
                           Text('Riyadh, Riyadh, Saudi Arabia'),
-                          Text("${DateFormat("dd MMMM").format(startDate)}-${DateFormat("dd MMMM").format(endDate)}"),
+                          Text("${DateFormat("dd MMM").format(startDate)}-${DateFormat("dd MMM").format(endDate)}"),
                         ],
                       ),
                       Column(
