@@ -160,7 +160,6 @@ class _SelectRoomsState extends State<SelectRooms> {
         ),
       ),
     );
-    ;
   }
 }
 
