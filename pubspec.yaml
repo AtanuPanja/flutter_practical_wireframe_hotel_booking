@@ -12,6 +12,7 @@ dependencies:
   hive:
   hive_flutter:
   flutter_date_pickers:
+  geolocator:
 
 dev_dependencies:
   flutter_test:

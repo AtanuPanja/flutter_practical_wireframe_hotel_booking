@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'utilities/find_location.dart';
 
 import 'SelectDateRange.dart';
 
@@ -11,9 +13,15 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
 
-  // method to call in the next page, but passed as an argument here
-  void customDateRangePicker() {
-    
+  bool locationIsAllowed =  false;
+  bool nearMeButtonTapped = false;
+  double latitude = 0.0;
+  double longitude = 0.0;
+
+  // calling the utility function, to ask for location permission
+  Future<bool> askForLocationPermission() async{
+    bool response =  await getLocationPermission(context);
+    return response;
   }
 
   @override
@@ -61,7 +69,20 @@ class _SearchPageState extends State<SearchPage> {
                 leading: Icon(Icons.location_searching_outlined),
                 title: Text('Property Near Me'),
                 contentPadding: EdgeInsets.zero,
-                onTap: () {},
+                onTap: () async{
+                  bool result = await askForLocationPermission();
+                  setState((){
+                    nearMeButtonTapped = true;
+                    locationIsAllowed = result;
+                  });
+                  if (locationIsAllowed) {
+                    Map<String, double> location = await getCurrentLocation();
+                    setState(() {
+                      latitude = location['latitude'] ?? 0.0;
+                      longitude = location['longitude'] ?? 0.0;
+                    });
+                  }
+                },
               ),
               ListTile(
                 leading: Icon(
@@ -106,6 +127,26 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   );
                 },
+              ),
+
+              Visibility(
+                visible: nearMeButtonTapped && locationIsAllowed,
+                child: Container(
+                  padding: EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.indigo.shade900,
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('This app has location access', style: TextStyle(color: Colors.white,),),
+                      Text('Latitude Longitude', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
+                      Text('LAT: $latitude', style: TextStyle(color: Colors.white,),),
+                      Text('LONG: $longitude', style: TextStyle(color: Colors.white,),),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),
